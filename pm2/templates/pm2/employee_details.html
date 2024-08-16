@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Details</title>
+</head>
+<body>
+    <h1>Employee Details</h1>
+
+    <form method="get" action="">
+        <label for="search_query">Search Employee by ID or Name:</label>
+        <input type="text" id="search_query" name="search_query" placeholder="Enter Employee ID or Name" value="{{ request.GET.search_query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if selected_employee %}
+        <h2>Details for {{ selected_employee.first_name }} {{ selected_employee.last_name }}</h2>
+        <p>Employee ID: {{ selected_employee.employee_id }}</p>
+        <p>Full Name: {{ selected_employee.first_name }} {{ selected_employee.last_name }}</p>
+        <p>Age: {{ age }}</p>
+        <p>Email: {{ selected_employee.email }}</p>
+        <p>Phone Number: {{ selected_employee.phone_number }}</p>
+        <p>Designation: {{ selected_employee.designation }}</p>
+        <h3>Projects:</h3>
+        <ul>
+            {% for assignment in selected_employee.projects.all %}
+                <li>{{ assignment.project.project_name }} ({{ assignment.allocation_percentage }}%)</li>
+            {% empty %}
+                <li>No projects assigned.</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Please enter an employee ID or name to search.</p>
+    {% endif %}
+</body>
+</html>
